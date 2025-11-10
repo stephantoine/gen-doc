@@ -1,0 +1,1041 @@
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \page Général 
+
+Contenu de la ligne : * 
+
+Contenu de la ligne : * \author LE GUIC
+
+Contenu de la ligne : * \version 1.0
+
+Contenu de la ligne : * \date 13 septembre 2021
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Ce programme propose plusieurs opérations de manipulation
+
+Contenu de la ligne : * de chaînes de caractères où les chaînes sont implémentées
+
+Contenu de la ligne : * par des listes chainées de caractères.Programme de manipulation de chaînes de caractères.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                 INCLUDE                 *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : #include <stdio.h>
+
+Contenu de la ligne : #include <stdlib.h>
+
+Contenu de la ligne : #include <stdbool.h>
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                  DEFINE                 *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \def TMAX
+
+Contenu de la ligne : * \brief Taille maximale d’un tableau.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Taille maximale d'une chaine quand on souhaite ordonner ses caractères.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : #define TMAX 20
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \def TMIN
+
+Contenu de la ligne : * \brief Taille minimale d’un tableau.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Taille minimale d'une chaine quand on souhaite ordonner ses caractères.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : #define TMAX 0
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                STRUCTURES               *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \struct element
+
+Contenu de la ligne : * \brief Structure d'un élément d'une liste chaînée.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Un élément est composé d'un caractère et d'un pointeur sur le caractère suivant
+
+Contenu de la ligne : * (ou qui vaut NULL si c'est le dernier). Cette structure de données est récursive.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : typedef struct Elem {
+
+Contenu de la ligne :     char lettre;		/**< caractère de la chaîne */
+
+Contenu de la ligne :     struct Elem * svt;  /**< pointeur sur l'élément suivant */
+
+Contenu de la ligne : } element;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \struct mot
+
+Contenu de la ligne : * \brief Structure d'un mot d'une liste chaînée.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Un mot est composé de plusieurs caractères
+
+Contenu de la ligne : */
+
+Contenu de la ligne : 
+
+Contenu de la ligne : typedef struct mot {
+
+Contenu de la ligne :     char lettre;		/**< caractère de la chaîne */
+
+Contenu de la ligne : } mot;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                   TYPES                 *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \typedef chaine
+
+Contenu de la ligne : * \brief Pointeur sur le premier élément d'une liste.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Le type chaine permet de déclarer des chaines de caractères en tant que liste chaînée.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : typedef element * chaine;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \typedef typTab
+
+Contenu de la ligne : * \brief Type tableau de TMAX caractères.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Le type typTab permet d'utiliser un tableau de stockage provisoire pour ordonner
+
+Contenu de la ligne : * les éléments (caractères) d’une liste (voir fonction ord()).
+
+Contenu de la ligne : *
+
+Contenu de la ligne : */
+
+Contenu de la ligne : typedef char typTab[TMAX];
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                 GLOBALES                *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \var int toto
+
+Contenu de la ligne : * \brief lorem impsu dada didi dudu
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * la variable globale toto fait ceci fait cela
+
+Contenu de la ligne : *
+
+Contenu de la ligne : */
+
+Contenu de la ligne : int toto = 0;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \var int tutu
+
+Contenu de la ligne : * \brief lorem impsu dada didi dudu
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * la variable globale tutu fait ceci fait cela
+
+Contenu de la ligne : *
+
+Contenu de la ligne : */
+
+Contenu de la ligne : 
+
+Contenu de la ligne : int tutu = 1;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : void init(chaine * ch);
+
+Contenu de la ligne : bool estV(chaine ch);
+
+Contenu de la ligne : void ajT(chaine * ch, char c);
+
+Contenu de la ligne : void ajQ(chaine * ch, char c);
+
+Contenu de la ligne : int nbC(chaine ch);
+
+Contenu de la ligne : void aff(chaine ch);
+
+Contenu de la ligne : void cat(chaine ch1, chaine ch2, chaine * ch3);
+
+Contenu de la ligne : bool app(chaine ch, char c);
+
+Contenu de la ligne : bool ide(chaine ch1, chaine ch2);
+
+Contenu de la ligne : void inv(chaine ch1, chaine * ch2);
+
+Contenu de la ligne : bool pal(chaine ch1);
+
+Contenu de la ligne : bool ana(chaine ch1, chaine ch2);
+
+Contenu de la ligne : void ord(chaine * ch);
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *                   MAIN                  *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn int main()
+
+Contenu de la ligne : * \brief Programme principal.
+
+Contenu de la ligne : * \return Code de sortie du programme (0 : sortie normale).
+
+Contenu de la ligne : * 
+
+Contenu de la ligne : * Le programme principal traite un exemple qui teste quelques fonctions :
+
+Contenu de la ligne : * il crée deux chaines, les affiche, puis ordonne la deuxième et l'affiche.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : int main()
+
+Contenu de la ligne : {
+
+Contenu de la ligne :     chaine ch1, ch2;
+
+Contenu de la ligne :     init(&ch1);
+
+Contenu de la ligne :     init(&ch2);
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     ajQ(&ch1, 'C');
+
+Contenu de la ligne :     ajQ(&ch1, 'H');
+
+Contenu de la ligne :     ajQ(&ch1, 'I');
+
+Contenu de la ligne :     ajQ(&ch1, 'E');
+
+Contenu de la ligne :     ajQ(&ch1, 'N');
+
+Contenu de la ligne :     aff(ch1);
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     ajQ(&ch2, 'N');
+
+Contenu de la ligne :     ajQ(&ch2, 'I');
+
+Contenu de la ligne :     ajQ(&ch2, 'C');
+
+Contenu de la ligne :     ajQ(&ch2, 'H');
+
+Contenu de la ligne :     ajQ(&ch2, 'E');
+
+Contenu de la ligne :     aff(ch2);
+
+Contenu de la ligne :     ord(&ch2);
+
+Contenu de la ligne :     aff(ch2);
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     return EXIT_SUCCESS;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**######################################**
+
+Contenu de la ligne : *         FONCTIONS ET PROCEDURES         *
+
+Contenu de la ligne : **#######################################**/
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void init(chaine * ch).
+
+Contenu de la ligne : * \brief Fonction qui initialise la chaine.
+
+Contenu de la ligne : * \param ch : paramètre de sortie qui représente la chaine à initialiser.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Met à NULL la chaine passée en paramètre.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void init(chaine * ch){
+
+Contenu de la ligne : 	/**
+
+Contenu de la ligne : 	 * Cette fonction permet d'initialiser une chaîne. Elle doit être appelée à chaque utilisation de chaîne.
+
+Contenu de la ligne : 	 */ 
+
+Contenu de la ligne :     *ch=NULL;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn estV(chaine ch)
+
+Contenu de la ligne : * \brief Fonction qui indique si une chaine est vide.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée qui représente la chaine à tester.
+
+Contenu de la ligne : * \return true si la chaine est vide, false sinon.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool estV(chaine ch){
+
+Contenu de la ligne :     return ch==NULL;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void ajT(chaine * ch, char c)
+
+Contenu de la ligne : * \brief Ajout d'un caractère en tête.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée/sortie qui représente la chaine à modifier.
+
+Contenu de la ligne : * \param c: paramètre d'entrée qui représente le caractère à ajouter.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Après une allocation dynamique, ajoute le nouvel élément au début de la liste chaînée.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void ajT(chaine * ch, char c){
+
+Contenu de la ligne :     element * nouveau = (element*)malloc(sizeof(element));
+
+Contenu de la ligne :     nouveau->lettre = c;
+
+Contenu de la ligne :     nouveau->svt = *ch;
+
+Contenu de la ligne :     *ch = nouveau;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void ajQ(chaine * ch, char c)
+
+Contenu de la ligne : * \brief Ajout d'un caractère en queue.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée/sortie qui représente la chaine à modifier.
+
+Contenu de la ligne : * \param c: paramètre d'entrée qui représente le caractère à ajouter.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Après une allocation dynamique, ajoute le nouvel élément à la fin de la liste chaînée.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void ajQ(chaine * ch, char c){
+
+Contenu de la ligne :     element * ptCourant;
+
+Contenu de la ligne :     element * nouveau = (element*)malloc(sizeof(element));
+
+Contenu de la ligne :     nouveau->lettre = c;
+
+Contenu de la ligne :     nouveau->svt = NULL;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     if (estV(*ch)){
+
+Contenu de la ligne :         *ch = nouveau;
+
+Contenu de la ligne :     } else {
+
+Contenu de la ligne :         ptCourant = *ch;
+
+Contenu de la ligne :         while (ptCourant->svt != NULL){
+
+Contenu de la ligne :             ptCourant = ptCourant->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :         ptCourant->svt = nouveau;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn int nbC(chaine ch)
+
+Contenu de la ligne : * \brief Calcule la taille d'une chaîne.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée qui représente la chaine dont on veut connaître la taille.
+
+Contenu de la ligne : * \return le nombre de caractères présents dans la chaîne.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Parcours complet de la liste chaînée pour compter le nombre de ses éléments.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : int nbC(chaine ch){
+
+Contenu de la ligne :     int nb = 0;
+
+Contenu de la ligne :     element * ptCourant = ch;
+
+Contenu de la ligne :     while (ptCourant != NULL){
+
+Contenu de la ligne :         ptCourant = ptCourant->svt;
+
+Contenu de la ligne :         nb++;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return nb;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void aff(chaine ch)
+
+Contenu de la ligne : * \brief Affiche une chaîne à l'écran.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée qui représente la chaine à afficher.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Parcours complet de la liste chaînée pour afficher chacun de ses éléments (le champ 'lettre').
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void aff(chaine ch){
+
+Contenu de la ligne :     if (!estV(ch)){
+
+Contenu de la ligne :         printf("%c", ch->lettre);
+
+Contenu de la ligne :         aff(ch->svt);
+
+Contenu de la ligne :     } else {
+
+Contenu de la ligne :         printf("\n");
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn bool ide(chaine ch1, chaine ch2)
+
+Contenu de la ligne : * \brief Indique si deux chaînes sont identiques.
+
+Contenu de la ligne : * \param ch1 : paramètre d'entrée qui représente la première chaîne.
+
+Contenu de la ligne : * \param ch2 : paramètre d'entrée qui représente la deuxième chaîne.
+
+Contenu de la ligne : * \return true si les deux chaînes sont identiques, false sinon.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Parcourt parallèlement les deux listes chaînées, caractère par caractère,
+
+Contenu de la ligne : * tant que les caractères correspondants sont les mêmes.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool ide(chaine ch1, chaine ch2){
+
+Contenu de la ligne :     element * ptCourant1 = ch1;
+
+Contenu de la ligne :     element * ptCourant2 = ch2;
+
+Contenu de la ligne :     bool pareil = true;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     while (pareil && ptCourant1!=NULL){
+
+Contenu de la ligne :         if (ptCourant2==NULL){
+
+Contenu de la ligne :             pareil = false;
+
+Contenu de la ligne :         } else if (ptCourant1->lettre != ptCourant2->lettre){
+
+Contenu de la ligne :             pareil= false;
+
+Contenu de la ligne :         } else {
+
+Contenu de la ligne :             ptCourant1 = ptCourant1->svt;
+
+Contenu de la ligne :             ptCourant2 = ptCourant2->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return pareil && ptCourant2==NULL;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void inv(chaine ch1, chaine * ch2)
+
+Contenu de la ligne : * \brief Inverse l'ordre des caractères dans une chaîne.
+
+Contenu de la ligne : * \param ch1 : paramètre d'entrée qui représente la chaîne à inverser.
+
+Contenu de la ligne : * \param ch2 : paramètre de sortie qui représente la nouvelle chaîne construite.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Parcourt la première liste et ajoute chaque élément en tête de la deuxième.
+
+Contenu de la ligne : * ATTENTION : ch2 doit être initialisée par la procédure/fonction appelante.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void inv(chaine ch1, chaine * ch2){
+
+Contenu de la ligne :     element * ptCourant;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     ptCourant = ch1;
+
+Contenu de la ligne :     while (ptCourant != NULL){
+
+Contenu de la ligne :         ajT(ch2, ptCourant->lettre);
+
+Contenu de la ligne :         ptCourant = ptCourant->svt;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn bool pal(chaine ch1)
+
+Contenu de la ligne : * \brief Indique si une chaîne est un palindrome.
+
+Contenu de la ligne : * \param ch1 : paramètre d'entrée qui représente la chaîne à tester.
+
+Contenu de la ligne : * \return true si les deux chaînes sont identiques, false sinon.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Une chaîne est un palindrome si elle est identique à son inverse.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool pal(chaine ch1){
+
+Contenu de la ligne :     chaine ch;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     init(&ch);
+
+Contenu de la ligne :     inv(ch1, &ch);
+
+Contenu de la ligne :     return ide(ch1, ch);
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn bool app(chaine ch, char c)
+
+Contenu de la ligne : * \brief Indique si un caractère fait partie d'une chaîne.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée qui représente la chaîne à tester.
+
+Contenu de la ligne : * \param c : paramètre d'entrée qui représente le caractère à tester.
+
+Contenu de la ligne : * \return true si le caractère est présent dans la chaîne, false sinon.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * Effectue une recherche séquentielle de c dans la liste chaînée ch.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool app(chaine ch, char c){
+
+Contenu de la ligne :     bool trouve = false;
+
+Contenu de la ligne :     element * ptCourant = ch;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     while (!trouve && ptCourant!=NULL){
+
+Contenu de la ligne :         if (ptCourant->lettre==c){
+
+Contenu de la ligne :             trouve = true;
+
+Contenu de la ligne :         } else {
+
+Contenu de la ligne :             ptCourant = ptCourant->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return trouve;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn bool supprimer(chaine * ch, char c)
+
+Contenu de la ligne : * \brief Supprime un caractère d'une chaîne.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée/sortie qui représente la chaîne à modifier.
+
+Contenu de la ligne : * \param c : paramètre d'entrée qui représente le caractère à enlever.
+
+Contenu de la ligne : * \return true si la suppression a eu lieu (ie si le caractère est présent), false sinon.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * ATTENTION : cette fonction ne supprime que la première occurrence du caractère.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool supprimer(chaine * ch, char c){
+
+Contenu de la ligne :     bool trouve = false;
+
+Contenu de la ligne :     element * ptCourant = *ch;
+
+Contenu de la ligne :     element * ptPrec = NULL;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     while (!trouve && ptCourant!=NULL){
+
+Contenu de la ligne :         if (ptCourant->lettre==c){
+
+Contenu de la ligne :             trouve = true;
+
+Contenu de la ligne :         } else {
+
+Contenu de la ligne :             ptPrec = ptCourant;
+
+Contenu de la ligne :             ptCourant = ptCourant->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     if (trouve){
+
+Contenu de la ligne :         if (ptPrec==NULL) {
+
+Contenu de la ligne :             *ch = ptCourant->svt;
+
+Contenu de la ligne :         } else {
+
+Contenu de la ligne :             ptPrec->svt = ptCourant->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :         free(ptCourant);
+
+Contenu de la ligne :         ptCourant = NULL;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return trouve;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn bool ana(chaine ch1, chaine ch2)
+
+Contenu de la ligne : * \brief Indique si deux chaînes sont anagrammes l'une de l'autre.
+
+Contenu de la ligne : * \param ch1 : paramètre d'entrée qui représente la première chaîne.
+
+Contenu de la ligne : * \param ch2 : paramètre d'entrée qui représente le deuxième chaîne.
+
+Contenu de la ligne : * \return true si les deux chaînes sont anagrammes l'une de l'autre, false sinon.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * La fonction teste si les deux chaînes sont composées des mêmes caractères. Elle parcourt la liste ch1.
+
+Contenu de la ligne : * A chaque element, elle enlève dans ch2 le caractère courant correspondant * de ch1 s'il existe.
+
+Contenu de la ligne : * S'il n'existe pas, le résultat est faux, arrêt du parcours. Mais si à la fin du parcours * de ch1,
+
+Contenu de la ligne : * ch2 est vide alors c'est OK.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * ATTENTION, dans cette fonction la chaine ch2 est modifiée, donc plus utilisable à la fin.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : bool ana(chaine ch1, chaine ch2){
+
+Contenu de la ligne :     bool anag = true;
+
+Contenu de la ligne : 
+
+Contenu de la ligne : 	element * ptCourant = ch1;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     while (anag && ptCourant!=NULL){
+
+Contenu de la ligne :         if (! supprimer(&ch2, ptCourant->lettre)){
+
+Contenu de la ligne :             anag = false;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :         ptCourant = ptCourant->svt;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return anag && estV(ch2);
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn int LvT(chaine ch, typTab t)
+
+Contenu de la ligne : * \brief Recopie les caractères d'une chaîne dans un tableau.
+
+Contenu de la ligne : * \param ch : paramètre d'entrée qui représente la chaîne à copier.
+
+Contenu de la ligne : * \param t : paramètre d'entrée/sortie qui représente le tableau.
+
+Contenu de la ligne : * \return La taille de la chaîne ou -1 si cette taille dépasse TMAX.
+
+Contenu de la ligne : * \see ord()
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * La fonction est utilisée par la fonction ord(). Elle copie les caractères d'une Liste
+
+Contenu de la ligne : * dans un tableau A CONDITION que la taille de la chaîne soit inférieure ou égale à TMAX.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : int LvT(chaine ch, typTab t){
+
+Contenu de la ligne :     int i=0;
+
+Contenu de la ligne :     int N = nbC(ch);
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     if (N<=TMAX){
+
+Contenu de la ligne :         chaine pt = ch;
+
+Contenu de la ligne :         while (pt!=NULL){
+
+Contenu de la ligne :             t[i] = pt->lettre;
+
+Contenu de la ligne :             i++;
+
+Contenu de la ligne :             pt = pt->svt;
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :     } else {
+
+Contenu de la ligne :         N = -1;
+
+Contenu de la ligne :     }
+
+Contenu de la ligne :     return N;
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void TvL(typTab t, chaine * ch, int N)
+
+Contenu de la ligne : * \brief Recopie les caractères d'une chaîne dans un tableau.
+
+Contenu de la ligne : * \param t : paramètre d'entrée/sortie qui représente le tableau à recopier.
+
+Contenu de la ligne : * \param ch : paramètre de sortie qui représente la chaîne résultat.
+
+Contenu de la ligne : * \param N: paramètre d'entrée qui représente le nombre de caractères à recopier.
+
+Contenu de la ligne : * \see ord()
+
+Contenu de la ligne : * 
+
+Contenu de la ligne : * La fonction est utilisée par la fonction ord(). Elle ajoute un à un les caractères du tableau
+
+Contenu de la ligne : * à une liste (ajout en queue).
+
+Contenu de la ligne : * ATTENTION : ch doit être initialisée par la procédure/fonction appelante.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void TvL(typTab t, chaine * ch, int N){
+
+Contenu de la ligne :     int i;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     for (i=0 ; i<N ; i++){
+
+Contenu de la ligne :         ajQ(ch, t[i]);
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void trT(typTab t, int N)
+
+Contenu de la ligne : * \brief Trie les éléments d'un tableau de caractères.
+
+Contenu de la ligne : * \param t : paramètre d'entrée/sortie qui représente le tableau à trier.
+
+Contenu de la ligne : * \param N: paramètre d'entrée qui représente le nombre de caractères du tableau.
+
+Contenu de la ligne : * \see ord()
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * La fonction utilise le tri par insertion. Elle ordonne les éléments de manière croissante.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void trT(typTab t, int N){
+
+Contenu de la ligne :     int i, j;
+
+Contenu de la ligne :     bool inf;
+
+Contenu de la ligne :     char tmp;
+
+Contenu de la ligne : 
+
+Contenu de la ligne :     for(i=1;i<N;i++){
+
+Contenu de la ligne :         j=i;
+
+Contenu de la ligne :         inf=true;
+
+Contenu de la ligne :         while (j>0 && inf){
+
+Contenu de la ligne :             if(t[j] < t[j-1]){
+
+Contenu de la ligne :                 tmp = t[j];
+
+Contenu de la ligne :                 t[j] = t[j-1];
+
+Contenu de la ligne :                 t[j-1] = tmp;
+
+Contenu de la ligne :                 j--;
+
+Contenu de la ligne :             }else{
+
+Contenu de la ligne :                 inf = false;
+
+Contenu de la ligne :             }
+
+Contenu de la ligne :         }
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 
+
+Contenu de la ligne : /**
+
+Contenu de la ligne : * \fn void ord(chaine * ch)
+
+Contenu de la ligne : * \brief Ordonne les caractères d'une chaîne par ordre croissant.
+
+Contenu de la ligne : * \param t : paramètre d'entrée/sortie qui représente la chaîne à ordonner.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * La fonction utilise les fonctions LvT, trT et TvL pour respectivement :
+
+Contenu de la ligne : *   - copier les caractères de la liste dans un tableau,
+
+Contenu de la ligne : *   - trier le tableau,
+
+Contenu de la ligne : *   - et recopier les caractères du tableau dans la liste.
+
+Contenu de la ligne : *
+
+Contenu de la ligne : * ATTENTION : la chaine doit faire moins de TMAX caractères.
+
+Contenu de la ligne : */
+
+Contenu de la ligne : void ord(chaine * ch){
+
+Contenu de la ligne :     typTab t;
+
+Contenu de la ligne :     int N = LvT(*ch, t);
+
+Contenu de la ligne :     if (N!=-1){
+
+Contenu de la ligne :         trT(t, N);
+
+Contenu de la ligne :         *ch = NULL;
+
+Contenu de la ligne :         TvL(t, ch, N);
+
+Contenu de la ligne :     }
+
+Contenu de la ligne : }
+
+Contenu de la ligne : 

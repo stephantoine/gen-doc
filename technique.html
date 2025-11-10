@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8" />
+        <title>Documentation technique html</title>
+    </head>
+    <body>
+        <nav class="menu">
+            <ul>
+                <li><a href="#entete">EN-TÊTE</a></li>
+                <li><a href="#define">CONSTANTES</a></li>
+                <li><a href="#structures">STRUCTURES</a></li>
+                <li><a href="#globales">GLOBALES</a></li>
+                <li><a href="#fonctions">FONCTIONS</a></li>
+            </ul>
+        </nav>
+        <header>
+            <h1>Documentation technique source2.c </h1>
+            <h3>LE GUIC</h3>
+            <h3>Général</h3>
+            <h3>Verion : 1.0</h3>
+            <h3>13 septembre 2021</h3>
+         </header>
+         <article>
+            <h2 id="entete">En-tête</h2>
+            <p>Ce programme propose plusieurs opérations de manipulation de chaînes de caractères où les chaînes sont implémentées par des listes chainées de caractères.Programme de manipulation de chaînes de caractères.  </p>
+         </article>
+         <article>
+            <h2 id="define">Define</h2>            <ol>
+               <li>TMAX
+ Taille maximale d’un tableau.
+*
+ Taille maximale d'une chaine quand on souhaite ordonner ses caractères. </li>
+               <br>
+               <li>TMIN
+ Taille minimale d’un tableau.
+*
+ Taille minimale d'une chaine quand on souhaite ordonner ses caractères. </li>
+               <br>
+            </ol>
+         </article>
+         <article>
+            <h2 id="structures">Structures</h2>            <ol>
+               <li>element
+ Structure d'un élément d'une liste chaînée.
+*
+ Un élément est composé d'un caractère et d'un pointeur sur le caractère suivant
+ (ou qui vaut NULL si c'est le dernier). Cette structure de données est récursive. </li>
+               <br>
+               <li>mot
+ Structure d'un mot d'une liste chaînée.
+*
+ Un mot est composé de plusieurs caractères </li>
+               <br>
+            </ol>
+         </article>
+         <article>
+            <h2 id="globales">Globales</h2>            <ol>
+               <li>int toto
+ lorem impsu dada didi dudu
+*
+ la variable globale toto fait ceci fait cela
+ </li>
+               <br>
+               <li>int tutu
+ lorem impsu dada didi dudu
+*
+ la variable globale tutu fait ceci fait cela
+ </li>
+               <br>
+            </ol>
+         </article>
+         <article>
+            <h2 id="fonctions">Fonctions et Procédures</h2>            <ol>
+               <li>int main()
+ Programme principal.
+ Code de sortie du programme (0 : sortie normale).
+ 
+ Le programme principal traite un exemple qui teste quelques fonctions :
+ il crée deux chaines, les affiche, puis ordonne la deuxième et l'affiche. </li>
+               <br>
+               <li>void init(chaine  ch).
+ Fonction qui initialise la chaine.
+ ch : paramètre de sortie qui représente la chaine à initialiser.
+*
+ Met à NULL la chaine passée en paramètre. </li>
+               <br>
+               <li>void ajT(chaine  ch, char c)
+ Ajout d'un caractère en tête.
+ ch : paramètre d'entrée/sortie qui représente la chaine à modifier.
+ c: paramètre d'entrée qui représente le caractère à ajouter.
+*
+ Après une allocation dynamique, ajoute le nouvel élément au début de la liste chaînée. </li>
+               <br>
+               <li>void ajQ(chaine  ch, char c)
+ Ajout d'un caractère en queue.
+ ch : paramètre d'entrée/sortie qui représente la chaine à modifier.
+ c: paramètre d'entrée qui représente le caractère à ajouter.
+*
+ Après une allocation dynamique, ajoute le nouvel élément à la fin de la liste chaînée. </li>
+               <br>
+               <li>int nbC(chaine ch)
+ Calcule la taille d'une chaîne.
+ ch : paramètre d'entrée qui représente la chaine dont on veut connaître la taille.
+ le nombre de caractères présents dans la chaîne.
+*
+ Parcours complet de la liste chaînée pour compter le nombre de ses éléments. </li>
+               <br>
+               <li>void aff(chaine ch)
+ Affiche une chaîne à l'écran.
+ ch : paramètre d'entrée qui représente la chaine à afficher.
+*
+ Parcours complet de la liste chaînée pour afficher chacun de ses éléments (le champ 'lettre'). </li>
+               <br>
+               <li>void inv(chaine ch1, chaine  ch2)
+ Inverse l'ordre des caractères dans une chaîne.
+ ch1 : paramètre d'entrée qui représente la chaîne à inverser.
+ ch2 : paramètre de sortie qui représente la nouvelle chaîne construite.
+*
+ Parcourt la première liste et ajoute chaque élément en tête de la deuxième.
+ ATTENTION : ch2 doit être initialisée par la procédure/fonction appelante. </li>
+               <br>
+               <li>bool app(chaine ch, char c)
+ Indique si un caractère fait partie d'une chaîne.
+ ch : paramètre d'entrée qui représente la chaîne à tester.
+ c : paramètre d'entrée qui représente le caractère à tester.
+ true si le caractère est présent dans la chaîne, false sinon.
+*
+ Effectue une recherche séquentielle de c dans la liste chaînée ch. </li>
+               <br>
+               <li>bool supprimer(chaine  ch, char c)
+ Supprime un caractère d'une chaîne.
+ ch : paramètre d'entrée/sortie qui représente la chaîne à modifier.
+ c : paramètre d'entrée qui représente le caractère à enlever.
+ true si la suppression a eu lieu (ie si le caractère est présent), false sinon.
+*
+ ATTENTION : cette fonction ne supprime que la première occurrence du caractère. </li>
+               <br>
+               <li>int LvT(chaine ch, typTab t)
+ Recopie les caractères d'une chaîne dans un tableau.
+ ch : paramètre d'entrée qui représente la chaîne à copier.
+ t : paramètre d'entrée/sortie qui représente le tableau.
+ La taille de la chaîne ou -1 si cette taille dépasse TMAX.
+ ord()
+*
+ La fonction est utilisée par la fonction ord(). Elle copie les caractères d'une Liste
+ dans un tableau A CONDITION que la taille de la chaîne soit inférieure ou égale à TMAX. </li>
+               <br>
+               <li>void TvL(typTab t, chaine  ch, int N)
+ Recopie les caractères d'une chaîne dans un tableau.
+ t : paramètre d'entrée/sortie qui représente le tableau à recopier.
+ ch : paramètre de sortie qui représente la chaîne résultat.
+ N: paramètre d'entrée qui représente le nombre de caractères à recopier.
+ ord()
+ 
+ La fonction est utilisée par la fonction ord(). Elle ajoute un à un les caractères du tableau
+ à une liste (ajout en queue).
+ ATTENTION : ch doit être initialisée par la procédure/fonction appelante. </li>
+               <br>
+               <li>void trT(typTab t, int N)
+ Trie les éléments d'un tableau de caractères.
+ t : paramètre d'entrée/sortie qui représente le tableau à trier.
+ N: paramètre d'entrée qui représente le nombre de caractères du tableau.
+ ord()
+*
+ La fonction utilise le tri par insertion. Elle ordonne les éléments de manière croissante. </li>
+               <br>
+               <li>void ord(chaine  ch)
+ Ordonne les caractères d'une chaîne par ordre croissant.
+ t : paramètre d'entrée/sortie qui représente la chaîne à ordonner.
+*
+ La fonction utilise les fonctions LvT, trT et TvL pour respectivement :
+   - copier les caractères de la liste dans un tableau,
+   - trier le tableau,
+   - et recopier les caractères du tableau dans la liste.
+*
+ ATTENTION : la chaine doit faire moins de TMAX caractères. </li>
+               <br>
+            </ol>
+         </article>

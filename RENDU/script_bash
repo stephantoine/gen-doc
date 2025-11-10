@@ -1,0 +1,36 @@
+#!/bin/bash
+#recuperer les images
+#docker image pull clock 
+#docker image pull sae103-php
+#docker image pull sae103-html2pdf
+#creer le volume
+docker volume create sae103
+#creer sae103-forever
+docker container run -d -v sae103:/work --name sae103-forever clock
+#mettre les 3 codes sources dans le volume
+docker cp src1.c sae103-forever:src1.c   
+docker cp src2.c sae103-forever:src2.c
+docker cp src3.c sae103-forever:src3.c
+#lancement des script php
+docker container run -v sae103:/work --name cont_php sae103-php        
+docker exec cont_php php -f gendoc-user.php
+#docker exec cont_php php -f <nom_script_doc_technique_php>	
+#lancement du html2pdf		
+docker container run -v sae103:/work --name htmltopdf sae103-html2pdf				
+docker exec htmltopdf "html2pdf doc_user.html doc_user.pdf"
+docker exec htmltopdf "html2pdf doc_technique.html doc_technique.pdf"
+#creation de l'archive finale dans	
+tar czvf archive_finale_nom_version.tgz sae103-forever
+#creation d'un dossier pour extraire l'archive
+mkdir archive 
+#extraction de l'archive dans le dossier
+tar xzvf archive_finale_nom_version.tgz /archive
+#arret et suppression des conteneurs
+docker container stop cont_php
+docker container stop htmltopdf
+docker container stop sae103-forever 
+docker container rm php
+docker container rm htmltopdf
+docker container rm sae103-forever
+suppresion du volume
+docker volume rm sae103
